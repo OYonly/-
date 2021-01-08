@@ -1,14 +1,19 @@
-package com.oy.frame;
-
+package com.oy.ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.*;
 
 import com.oy.dao.Dao;
+import com.oy.pojo.*;
+
+import java.io.File;
 
 public class SearchPersonInfo {
 	private Connection conn;
@@ -175,10 +180,16 @@ public class SearchPersonInfo {
 		
 		JButton btn1=new JButton("完成");//按钮
 		panel2.add(btn1);
-		panel2.setBounds(420, 300, 60, 40); 
+		panel2.setBounds(380, 300, 60, 40); 
 		JButton btn2=new JButton("退出"); 
 		panel3.add(btn2);
-		panel3.setBounds(550, 300, 60, 40);
+		panel3.setBounds(500, 300, 60, 40);
+		JButton btn3=new JButton("打印"); 
+		panelf.add(btn3);
+		panelf.setBounds(250, 300, 60, 40);
+		JButton btn4=new JButton("注销"); 
+		panelg.add(btn4);
+		panelg.setBounds(130, 300, 60, 40);
 		
 		JTextField id = new JTextField(10);//用户姓名文本框
 		id.setPreferredSize(dimension);
@@ -298,7 +309,7 @@ public class SearchPersonInfo {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btn1) {
 					user.updataUserInfo(name.getText(), age.getText(), sex.getText(), phone.getText(), email.getText(),id.getText());
-					JOptionPane.showMessageDialog(null, "成功！");
+					JOptionPane.showMessageDialog(null, "保存成功！");
 									 
 				}
 			}
@@ -310,5 +321,44 @@ public class SearchPersonInfo {
 				}
 			}
 		});
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				print();
+			}
+		});
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				user.deleteUserInfo(keyid);
+				JOptionPane.showMessageDialog(null, "删除成功！");
+			}
+		});
+	}
+	public void print() {
+		try {
+			Class.forName(driverName);
+			conn = DriverManager.getConnection(dbURL);
+		
+		 PreparedStatement pstmt=conn.prepareStatement("select * from userinfo where id=?");
+		 pstmt.setString(1, keyid);
+		 ResultSet rs1=pstmt.executeQuery();
+		 ArrayList<UesrInfo> list=new ArrayList<UesrInfo>();
+		 while(rs1.next()) {
+			 UesrInfo user=new UesrInfo();
+			 user.setId(rs1.getString(1));
+			 user.setName(rs1.getString(2));
+			 user.setAge(rs1.getString(3));
+			 user.setSex(rs1.getString(4));
+			 user.setPhone(rs1.getString(5));
+			 user.setEmail(rs1.getString(6));
+			 list.add(user);
+		 }
+		 FileOutputStream fileOutputStream1=new FileOutputStream(new File("D:\\打印信息\\个人信息.txt"));
+		 byte bt1[]=new byte[1024];
+		 bt1= list.toString().getBytes();
+		 fileOutputStream1.write(bt1);
+		 fileOutputStream1.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

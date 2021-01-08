@@ -1,4 +1,4 @@
-package com.oy.frame;
+package com.oy.ui;
 
 import javax.swing.*;
 

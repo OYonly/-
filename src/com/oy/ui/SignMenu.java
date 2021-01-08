@@ -1,4 +1,4 @@
-package com.oy.frame;
+package com.oy.ui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

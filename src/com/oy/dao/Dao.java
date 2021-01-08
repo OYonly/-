@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.oy.userinfo.RandomValueUtil;
+import com.oy.pojo.RandomValueUtil;
 
 public class Dao {
 	private Connection conn;
@@ -81,6 +81,20 @@ public class Dao {
 			pstmt.setString(4,phone);
 			pstmt.setString(5,email);
 			pstmt.setString(6,id);
+			pstmt.executeUpdate();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public void deleteUserInfo( String id) {
+		try {
+			Class.forName(driverName);
+			conn = DriverManager.getConnection(dbURL);
+			PreparedStatement pstmt;
+			String sql="delete from userinfo where id=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,id);
 			pstmt.executeUpdate();
 			
 		}catch(Exception e){

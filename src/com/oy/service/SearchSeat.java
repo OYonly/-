@@ -8,8 +8,8 @@ import java.util.Vector;
 import javax.swing.*;
 
 import com.oy.dao.Dao;
-import com.oy.frame.SignMenu;
-import com.oy.frame.Userpage;
+import com.oy.ui.SignMenu;
+import com.oy.ui.Userpage;
 
 public class SearchSeat {
 	private Connection conn;

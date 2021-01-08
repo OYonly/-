@@ -1,4 +1,4 @@
-package com.oy.userinfo;
+package com.oy.pojo;
 import java.util.Random;
 
 import com.oy.dao.Dao;
